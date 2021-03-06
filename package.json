@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node index"
+    "start": "node ./index.js"
   },
   "dependencies": {
     "@discordjs/opus": "^0.4.0",
