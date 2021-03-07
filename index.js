@@ -15,25 +15,27 @@ const getSounds = async () => {
     .map(sound => sound.replace(/data-sound="|"/g, ''))
 }
 
-bot.on('message', async ({ content, member, channel }) => {
+(async () => {
   const sounds = await getSounds()
 
-  if (content === '!dikkenek') {
-    channel.send(`
-      Liste des sons disponibles : \n ${ sounds.join('\n') }
-    `)
-    return
-  }
+  bot.on('message', async ({ content, member, channel }) => {
+    const sound = content.substr(1)
 
-  const sound = content.substr(1)
+    if (content === '!dikkenek') {
+      channel.send(`
+        Liste des sons disponibles : \n${ sounds.join('\n') }
+      `)
+      return
+    }
 
-  if (sounds.includes(sound)) {
-    const connection = await member.voice.channel.join()
-    const dispatcher = connection.play(
-      `${ url }/ogg/${ sound }.ogg`, { volume: 0.75 }
-    )
-    // dispatcher.on('finish', () => connection.disconnect())
-  }
-})
+    if (sounds.includes(sound)) {
+      const connection = await member.voice.channel.join()
+      const dispatcher = connection.play(
+        `${ url }/ogg/${ sound }.ogg`, { volume: 0.75 }
+      )
+      // dispatcher.on('finish', () => connection.disconnect())
+    }
+  })
+})()
 
 bot.login(TOKEN)
