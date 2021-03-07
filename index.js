@@ -32,7 +32,7 @@ bot.on('message', async ({ content, member, channel }) => {
     const dispatcher = connection.play(
       `${ url }/ogg/${ sound }.ogg`, { volume: 0.75 }
     )
-    dispatcher.on('finish', () => connection.disconnect())
+    // dispatcher.on('finish', () => connection.disconnect())
   }
 })
 
