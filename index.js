@@ -18,24 +18,24 @@ const getSounds = async () => {
 (async () => {
   const sounds = await getSounds()
 
-  bot.on('message', async ({ content, member, channel }) => {
-    const sound = content.substr(1)
-
+  const commandHandler = async ({ content, member, channel }) => {
     if (content === '!dikkenek') {
-      channel.send(`
-        Liste des sons disponibles : \n${ sounds.join('\n') }
-      `)
+      channel.send(
+        `Liste des sons disponibles : \n${ sounds.join('\n') }`
+      )
       return
     }
+
+    const sound = content.substr(1)
 
     if (sounds.includes(sound)) {
       const connection = await member.voice.channel.join()
       const dispatcher = connection.play(
-        `${ url }/ogg/${ sound }.ogg`, { volume: 0.75 }
+        `${ url }/ogg/${ sound }.ogg`, { volume: 0.5 }
       )
-      // dispatcher.on('finish', () => connection.disconnect())
     }
-  })
-})()
+  }
 
-bot.login(TOKEN)
+  bot.on('message', commandHandler)
+  bot.login(TOKEN)
+})()
